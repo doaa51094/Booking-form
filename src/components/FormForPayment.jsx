@@ -2,7 +2,7 @@ import React from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
-const stripePromise = loadStripe("your-publishable-stripe-key"); // Replace with real test key.
+const stripePromise = loadStripe("your-publishable-stripe-key");
 
 const CheckoutForm = () => {
   const stripe = useStripe();

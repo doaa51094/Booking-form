@@ -11,7 +11,7 @@ const resources = {
       postal_code_placeholder: "Postal Code",
       city_placeholder: "City",
       number_of_sessions: "{{count}} Sessions",
-
+      preferably:'preferably',
       // Session options
       six_months: "6 MONTHS",
       nine_months: "9 MONTHS",
@@ -46,11 +46,16 @@ const resources = {
       country: "country",
       secure:'100% secure payment. All data is encrypted.',
       rate:'95% SATISFACTION RATE!',
-      Card_holder:"Card holder"
+      Card_holder:"Card holder",
+      parent:"the parents's",
+      student:"the student's",
     },
   },
   ar: {
     translation: {
+      preferably:'يفضل ',
+      parent:'الاباء ',
+      student:'الطلاب ',
       Card_holder:'حامل البطاقة',
       rate:'معدل رضا بنسبة 95%!',
       secure:'100٪ دفع آمن. جميع البيانات مشفرة.',

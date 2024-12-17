@@ -8,7 +8,16 @@ import { useTranslation } from "react-i18next";
 
 const BookingForm = () => {
   const { t } = useTranslation();
-  const [selectedOption, setSelectedOption] = useState("6 MONTHS");
+  const options = [
+    { label: t("six_months"), value: 6 },
+    { label: t("nine_months"), value: 9 },
+    { label: t("twelve_months"), value: 12 },
+    { label: t("eighteen_months"), value: 18 },
+    { label: t("twentyfour_months"), value: 24 },
+    { label: t("thirty_months"), value: 30 },
+  ];
+  const [selectedOption, setSelectedOption] = useState(options[0].value);
+  const [duration, setDuration] = useState(options[0].value);
   const [phoneStudent, setPhoneStudent] = useState("+30");
   const [phoneParent, setPhoneParent] = useState("+30");
   const [email, setEmail] = useState("");
@@ -19,7 +28,6 @@ const BookingForm = () => {
   const [country, setCountry] = useState("");
   const [sessions, setSessions] = useState(8);
   const [payInAdvance, setPayInAdvance] = useState(true);
-  const [duration, setDuration] = useState(6);
   const regularPrice = 29.4;
 
   const handleSubmit = (e) => {
@@ -49,28 +57,22 @@ const BookingForm = () => {
     return payInAdvance ? total * 0.95 : total;
   };
 
-  const options = [
-    { label: t("six_months"), value: 6 },
-    { label: t("nine_months"), value: 9 },
-    { label: t("twelve_months"), value: 12 },
-    { label: t("eighteen_months"), value: 18 },
-    { label: t("twentyfour_months"), value: 24 },
-    { label: t("thirty_months"), value: 30 },
-  ];
-  
+
 
   return (
     <form onSubmit={handleSubmit} className="lg:flex main-container mb-4">
       <div className="booking-container lg:p-[3rem] p-8 relative">
-        <h2 className="font-bold text-[22px]">{t("registration_title")}</h2>
-        <p className="text-gray-600/70 text-[14px] mb-8">
+        <h2 className="font-bold text-[22px] ">{t("registration_title")}</h2>
+        <p className="text-gray-600/70 text-[14px] mb-8 text-c">
           {t("platform_description")}
         </p>
 
         {/* Phone Input for Student */}
         <div className="form-section">
           <label className="text-gray-400 text-[12px] mb-2">
-            {t("login_phone_number")}
+            {t("login_phone_number")} <span className="text-black font-semibold">
+              ({t('preferably')} <span className="underline">{t('student')})</span>
+            </span>
           </label>
           <PhoneInput
             buttonStyle={{
@@ -88,6 +90,9 @@ const BookingForm = () => {
         <div className="form-section">
           <label className="text-gray-400 text-[12px] mb-2">
             {t("contact_phone_number")}
+            <span className="text-black font-semibold">
+              ({t('preferably')} <span className="underline">{t('parent')})</span>
+            </span>
           </label>
           <PhoneInput
             buttonStyle={{
@@ -105,6 +110,9 @@ const BookingForm = () => {
         <div className="form-section">
           <label className="text-gray-400 text-[12px] mb-2">
             {t("contact_email")}
+            <span className="text-black font-semibold">
+              ({t('preferably')} <span className="underline">{t('parent')})</span>
+            </span>
           </label>
           <input
             type="email"
@@ -216,7 +224,11 @@ const BookingForm = () => {
 
         {/* Payment Form */}
         <div className="form-section">
-          <input type="text" className="w-full" placeholder={t("Card_holder" )}/>
+          <input
+            type="text"
+            className="w-full"
+            placeholder={t("Card_holder")}
+          />
         </div>
         <FormForPayment />
         <p className="absolute bottom-3 text-[12px] font-thin text-gray-400">
@@ -228,23 +240,24 @@ const BookingForm = () => {
       <div className="overview relative bg-[#f4f4f9] lg:min-w-[400px] lg:p-[3rem] p-8">
         <h5 className="text-[13px] font-semibold">{t("order_overview")}</h5>
         <div className="grid grid-cols-3 w-full max-w-sm mx-auto my-6">
-  {options.map((option, index) => (
-    <div
-      key={index}
-      onClick={() => {setSelectedOption(option.value) ;
-      setDuration(option.value);
-      }} 
-      className={`cursor-pointer border-[1px] lg:p-4 p-3 text-center lg:font-semibold font-normal text-sm
-      ${
-        selectedOption === option.value
-          ? "border-purple-900 text-purple-900" 
-          : "border-gray-300/50 text-gray-500"
-      }`}
-    >
-      {option.label} 
-    </div>
-  ))}
-</div>
+          {options.map((option, index) => (
+            <div
+              key={index}
+              onClick={() => {
+                setSelectedOption(option.value); // Update selected option
+                setDuration(option.value); // Update duration (optional, if needed)
+              }}
+              className={`cursor-pointer border-[1px] lg:p-4 p-3 text-center lg:font-semibold font-normal text-sm
+        ${
+          selectedOption === option.value
+            ? "border-purple-900 text-purple-900"
+            : "border-gray-300/50 text-gray-500"
+        }`}
+            >
+              {option.label}
+            </div>
+          ))}
+        </div>
 
         <div className="py-[20px]">
           <label className="toggle-container">
@@ -334,15 +347,14 @@ const BookingForm = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-[#7B61FF] to-[#00C6FF] text-white font-semibold h-[3.5rem] rounded mt-4"
+            className="w-full lg:mb-0 mb-14  bg-gradient-to-r from-[#7B61FF] to-[#00C6FF] text-white font-semibold h-[3.5rem] rounded mt-4"
           >
             {t("order_now")}
           </button>
         </div>
-        <p className="absolute bottom-3 left-1/2 text-[16px] font-thin text-gray-400 translate-x-[-50%]">
-  {t("rate")}{" "}
-</p>
-
+        <p className="absolute bottom-3 left-1/2 lg:text-[16px] text-[14px] font-thin text-gray-400 translate-x-[-50%]">
+          {t("rate")}{" "}
+        </p>
       </div>
     </form>
   );
