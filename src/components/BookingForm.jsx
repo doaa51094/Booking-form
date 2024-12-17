@@ -50,13 +50,14 @@ const BookingForm = () => {
   };
 
   const options = [
-    t("six_months"),
-    t("nine_months"),
-    t("twelve_months"),
-    t("eighteen_months"),
-    t("twentyfour_months"),
-    t("thirty_months"),
+    { label: t("six_months"), value: 6 },
+    { label: t("nine_months"), value: 9 },
+    { label: t("twelve_months"), value: 12 },
+    { label: t("eighteen_months"), value: 18 },
+    { label: t("twentyfour_months"), value: 24 },
+    { label: t("thirty_months"), value: 30 },
   ];
+  
 
   return (
     <form onSubmit={handleSubmit} className="lg:flex main-container mb-4">
@@ -227,21 +228,24 @@ const BookingForm = () => {
       <div className="overview relative bg-[#f4f4f9] lg:min-w-[400px] lg:p-[3rem] p-8">
         <h5 className="text-[13px] font-semibold">{t("order_overview")}</h5>
         <div className="grid grid-cols-3 w-full max-w-sm mx-auto my-6">
-          {options.map((option, index) => (
-            <div
-              key={index}
-              onClick={() => setSelectedOption(option)}
-              className={`cursor-pointer border-[1px] lg:p-4 p-3 text-center lg:font-semibold font-normal text-sm
-            ${
-              selectedOption === option
-                ? "border-purple-900 text-purple-900"
-                : "border-gray-300/50 text-gray-500"
-            }`}
-            >
-              {option}
-            </div>
-          ))}
-        </div>
+  {options.map((option, index) => (
+    <div
+      key={index}
+      onClick={() => {setSelectedOption(option.value) ;
+      setDuration(option.value);
+      }} 
+      className={`cursor-pointer border-[1px] lg:p-4 p-3 text-center lg:font-semibold font-normal text-sm
+      ${
+        selectedOption === option.value
+          ? "border-purple-900 text-purple-900" 
+          : "border-gray-300/50 text-gray-500"
+      }`}
+    >
+      {option.label} 
+    </div>
+  ))}
+</div>
+
         <div className="py-[20px]">
           <label className="toggle-container">
             {/* Custom Toggle */}
@@ -272,7 +276,7 @@ const BookingForm = () => {
                 payInAdvance ? "line-through" : ""
               }`}
             >
-              {regularPrice}€
+              {calculateTotalPrice().toFixed()}€
             </div>
           </div>
           {payInAdvance && (
