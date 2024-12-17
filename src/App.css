@@ -1,0 +1,168 @@
+.custom-select {
+  width: 100%;
+  font-size: 16px;
+}
+.react-tel-input .form-control{
+width: 100%;
+border: none;
+}
+.country-select {
+  margin: 10px 0;
+}
+
+.custom-select > div {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.booking-container {
+  background-color: white;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+
+}
+.main-container{
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+
+}
+
+h2, h3 {
+  text-align: center;
+}
+
+.form-section {
+  margin-bottom: 15px;
+}
+
+
+/* .input-field {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+} */
+
+.price-overview {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.payment-form {
+  text-align: center;
+}
+
+.card-element-container {
+  padding: 10px;
+  height: 2.5rem;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background: #f4f4f9;
+
+
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.submit-button:disabled {
+  background-color: #ccc;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fefefe;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+}
+.react-tel-input .form-control{
+  background: #f4f4f9 !important;
+  height:2.5rem;
+}
+.react-tel-input .selected-flag {
+  background: #f4f4f9;
+  border: none !important;
+}
+.react-tel-input .selected-flag .arrow{
+  display: none;
+}
+input ,select{
+  background: #f4f4f9;
+  height:2.5rem;
+  border-radius: 5px;
+  padding: 0 5px;
+  color: gray;
+  outline: none;
+}
+/* Container for toggle switch and label */
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* Hide the default checkbox */
+.toggle-container input {
+  display: none;
+}
+
+/* Slider style */
+.slider {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  border-radius: 20px;
+  transition: 0.4s;
+  background-color: white;
+  border: solid 2px #ccc;
+
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #ccc;
+  top: 50%;
+  left: 4px;
+  transform: translateY(-50%);
+  transition: 0.4s;
+}
+
+/* Checked (toggle ON) style */
+.toggle-container input:checked + .slider {
+  background-color: #4caf50; /* Green background when ON */
+}
+
+.toggle-container input:checked + .slider::before {
+  transform: translate(20px, -50%); /* Move the circle to the right */
+}
+html[lang="ar"] {
+  direction: rtl;
+}
+
+html[lang="en"] {
+  direction: ltr;
+}
