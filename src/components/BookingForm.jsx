@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import FormForPayment from "./FormForPayment";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import sepa from "../assets/sepa.webp";
 import { PaymentMethods } from "./PaymentMethods";
 import { useTranslation } from "react-i18next";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 const BookingForm = () => {
   const { t } = useTranslation();
@@ -16,6 +16,7 @@ const BookingForm = () => {
     { label: t("twentyfour_months"), value: 24 },
     { label: t("thirty_months"), value: 30 },
   ];
+
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   const [duration, setDuration] = useState(options[0].value);
   const [phoneStudent, setPhoneStudent] = useState("+30");
@@ -28,11 +29,22 @@ const BookingForm = () => {
   const [country, setCountry] = useState("");
   const [sessions, setSessions] = useState(8);
   const [payInAdvance, setPayInAdvance] = useState(true);
+  const stripe = useStripe();
+  const elements = useElements();
+
   const regularPrice = 29.4;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = {
+
+    if (!stripe || !elements) {
+      alert("Stripe is not loaded.");
+      return;
+    }
+
+    // Simulate backend payment logic
+    const totalPrice = calculateTotalPrice();
+    console.log("Form Submitted:", {
       phoneStudent,
       phoneParent,
       email,
@@ -45,19 +57,29 @@ const BookingForm = () => {
       duration,
       selectedOption,
       payInAdvance,
-      totalPrice: calculateTotalPrice(),
-    };
+      totalPrice,
+    });
 
-    console.log("Form Data Submitted:", formData);
-    alert("Form submitted successfully! Check the console for details.");
+    const cardElement = elements.getElement(CardElement);
+
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card: cardElement,
+    });
+
+    if (error) {
+      console.log("Payment Error:", error.message);
+      alert("Error: " + error.message);
+    } else {
+      console.log("Payment Success:", paymentMethod);
+      alert(`Payment successful! Total Price: ${totalPrice.toFixed(2)}€`);
+    }
   };
 
   const calculateTotalPrice = () => {
     const total = regularPrice * sessions * duration;
     return payInAdvance ? total * 0.95 : total;
   };
-
-
 
   return (
     <form onSubmit={handleSubmit} className="lg:flex main-container mb-4">
@@ -70,8 +92,10 @@ const BookingForm = () => {
         {/* Phone Input for Student */}
         <div className="form-section">
           <label className="text-gray-400 text-[12px] mb-2">
-            {t("login_phone_number")} <span className="text-black font-semibold">
-              ({t('preferably')} <span className="underline">{t('student')})</span>
+            {t("login_phone_number")}{" "}
+            <span className="text-black font-semibold">
+              ({t("preferably")}{" "}
+              <span className="underline">{t("student")})</span>
             </span>
           </label>
           <PhoneInput
@@ -91,7 +115,8 @@ const BookingForm = () => {
           <label className="text-gray-400 text-[12px] mb-2">
             {t("contact_phone_number")}
             <span className="text-black font-semibold">
-              ({t('preferably')} <span className="underline">{t('parent')})</span>
+              ({t("preferably")}{" "}
+              <span className="underline">{t("parent")})</span>
             </span>
           </label>
           <PhoneInput
@@ -111,7 +136,8 @@ const BookingForm = () => {
           <label className="text-gray-400 text-[12px] mb-2">
             {t("contact_email")}
             <span className="text-black font-semibold">
-              ({t('preferably')} <span className="underline">{t('parent')})</span>
+              ({t("preferably")}{" "}
+              <span className="underline">{t("parent")})</span>
             </span>
           </label>
           <input
@@ -230,7 +256,10 @@ const BookingForm = () => {
             placeholder={t("Card_holder")}
           />
         </div>
-        <FormForPayment />
+        <div className="card-element-container">
+          <CardElement options={{ hidePostalCode: true }} />
+        </div>
+        {/* <FormForPayment /> */}
         <p className="absolute bottom-3 text-[12px] font-thin text-gray-400">
           {t("secure")}
         </p>
